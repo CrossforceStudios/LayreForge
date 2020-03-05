@@ -7,7 +7,17 @@
     "properties": {
         "Scenarios":{
              "description": "An array containing metadata for each scenario used.",
-             "type": "object"
+             "type": "array",
+             "items": {
+                "type":"object",
+                "properties": {
+                    "IntroSequence":{
+                        "description": "How the intro scene (usually found in campaigns shipped with the game) appears in-game.",
+                        "type":"object"
+                    }
+                }
+             },
+             
         }
     },
     "required": ["Scenarios"]
