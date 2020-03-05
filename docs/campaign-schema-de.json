@@ -2,4 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://crossforcestudios.github.io/Layreforge/campaign-schema-de.json",
     "title": "AoE II Campaign Description (DE Version)",
-    "description": "Customizes Age of Empires II DE campaigns similarly to those shipped with the game."
+    "description": "Customizes Age of Empires II DE campaigns similarly to those shipped with the game.",
+    "type":"object"
+
+}
