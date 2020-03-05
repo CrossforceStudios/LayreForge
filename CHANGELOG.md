@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to Layre Forge will be documented in this file.
 
+# Development
+
+## [0.1.5]
+
+1. Intellisense
+   - Added multiple parameters of different types
+   - Added support for constant use in timers and goals
+2. Syntax Highlighting
+   - Added support for preprocessors
+   - Fixed issues with ages including parentheses
+3. Folding Support
+   - Added folding support.
+
 # Pre-development
 
 ## [0.1.4]

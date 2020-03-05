@@ -17,6 +17,7 @@
     - [2.8 Hover Support](#28-hover-support)
     - [2.9 AI Inspector](#29-ai-inspector)
     - [2.10 References Support](#210-references-support)
+    - [2.11 Folding Support](#211-folding-support)
   - [3. Requirements](#3-requirements)
   - [4. Extension Settings](#4-extension-settings)
   - [5. Known Issues](#5-known-issues)
@@ -106,6 +107,10 @@ The AI Inspector is a special tree-view panel that is automatically added to VSC
 
 There is support for finding references in ```.per``` files implemented in Layre Forge. However it is barebones. That means it only supports constants as of right now. There will be support for goals (goals and their constants) in the future, but it will require more information on how the goals should be identified within the script and represented.
 
+### 2.11 Folding Support
+
+There is now support for folding rules! It works like any other folding system for VS Code extensions, but this will expand to preproccessors too.
+
 
 ## 3. Requirements
 
@@ -114,6 +119,7 @@ The only clear dependency (for testing) is Age of Empires II (Age of Kings or la
 1. The Conquerors 1.5 (from UserPatch)
 2. The Conquerors 1.0c (same as above)
 3. Age of Empires II HD (available on Steam, check storefront for price, also comes with UserPatch)
+4. Age of Empires II Definitive Edition (same as above)
 
 
 

@@ -2,7 +2,7 @@
 	"name": "layreforge",
 	"displayName": "LayreForge",
 	"description": "A full suite of tools for making AoE II bots (AI) in VS Code",
-	"version": "0.0.1",
+	"version": "0.1.5",
 	"publisher": "crossforce-studios",
 	"icon": "icons/icon.png",
 	"galleryBanner": {
@@ -11,6 +11,9 @@
 	},
 	"repository": {
 		"url": "https://github.com/CrossforceStudios/LayreForge.git"
+	},
+	"bugs": {
+		"url": "https://github.com/CrossforceStudios/LayreForge/issues"
 	},
 	"engines": {
 		"vscode": "^1.42.0"
