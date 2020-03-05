@@ -8,3 +8,4 @@ client/**
 tsconfig.json
 vsc-extension-quickstart.md
 tslint.json
+docs/**
