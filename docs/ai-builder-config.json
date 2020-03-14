@@ -127,6 +127,12 @@
           "description": "An array containing information on 7 unit groups (land only).",
           "maxItems": 7,
           "items": {
+            "examples": [
+              {
+                "unit":"Swordsmen",
+                "amount":20
+              }
+            ],
             "properties": {
               "unit": {
                 "type": "string",
@@ -466,4 +472,5 @@
     }
   },
   "required":["strategicNumbers","name","behaviorType","military","buildings","upgrades","economy"]
+  
 }
