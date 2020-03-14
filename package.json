@@ -29,6 +29,12 @@
 	],
 	"main": "./out/client/src/extension",
 	"contributes": {
+		"jsonValidation": [
+			{
+				"fileMatch": "**.ai.json",
+				"url": "https://crossforcestudios.github.io/LayreForge/ai-builder-config.json"
+			}
+		],
 		"configuration": {
 			"type": "object",
 			"title": "Layre Forge",

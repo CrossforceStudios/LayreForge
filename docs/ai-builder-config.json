@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://crossforcestudios.github.io/Layreforge/ai-builder-config.json",
+  "$id": "https://crossforcestudios.github.io/LayreForge/ai-builder-config.json",
   "title": "GenieSuites AI Builder Configuration",
   "description": "Used to save and configure all fields in the GeenieSuites AI Builder",
   "type": "object",
