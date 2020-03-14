@@ -55,4 +55,15 @@ export class AoE2AIParameterTypes {
         label: "<timer-id>",
         documentation: "A valid timer id (range 1-10)"
     };
+
+    public static readonly TYPE_OPERATOR: ParameterInformation = {
+        label: "<type-op>",
+        documentation: "Sets the type of the following parameter. \n c: for consts, g: for goals, or s: for strategic numbers."
+    };
+
+    public static readonly VALUE_STRING: ParameterInformation = {
+        label: "<string>",
+        documentation: "A sequence of characters in double quotes."
+    };
+    
 };

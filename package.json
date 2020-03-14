@@ -10,7 +10,8 @@
 		"theme": "dark"
 	},
 	"repository": {
-		"url": "https://github.com/CrossforceStudios/LayreForge.git"
+		"url": "https://github.com/CrossforceStudios/LayreForge.git",
+		"type": "git"
 	},
 	"bugs": {
 		"url": "https://github.com/CrossforceStudios/LayreForge/issues"

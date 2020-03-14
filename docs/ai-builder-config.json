@@ -1,0 +1,469 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://crossforcestudios.github.io/Layreforge/ai-builder-config.json",
+  "title": "GenieSuites AI Builder Configuration",
+  "description": "Used to save and configure all fields in the GeenieSuites AI Builder",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "This will be the name of the AI files."
+    },
+    "behaviorType": {
+      "type": "string",
+      "enum": [
+        "Inactive",
+        "Signal",
+        "Active"
+      ],
+      "description": "When the AI activates. When not active, the AI does not do anything besides moving kings, trade units, and fishing ships"
+    },
+    "signal": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "This is the numerical signal that must be set from a trigger to activate the AI if \"Wait For Signal\" is selected above"
+    },
+    "strategicNumbers": {
+      "type": "object",
+      "description": "Properties regarding fields under \"Strategic Numbers\" (in the GenieSuites AI Builder).",
+      "properties": {
+        "taskUngrouped": {
+          "type": "boolean",
+          "description": "The AI will try to spread out its forces so no unit is adjacent to any other unit or building. (This can create a blanket of units over the map if the army is too large.)"
+        },
+        "explorerCount": {
+          "type": "integer",
+          "description": "The number of military units used to scout. (If the AI can create scout cavalry, it will train them to be these scouts.)",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "rolePercentages": {
+          "type": "object",
+          "description": "The percentage of builder villagers versus gatherer villagers.",
+          "properties": {
+            "builders": {
+              "type": "integer",
+              "description": "Percentage of builders.",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "gatherers": {
+              "type": "integer",
+              "description": "Percentage of gatherers",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        },
+        "gathererPercentages": {
+          "type": "object",
+          "description": "(Food | Wood | Gold | Stone)",
+          "properties": {
+            "food": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Percentage of food gatherers"
+            },
+            "wood": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Percentage of wood gatherers"
+            },
+            "gold": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Percentage of gold gatherers"
+            },
+            "stone": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Percentage of stone gatherers"
+            }
+          }
+        }
+      }
+    },
+    "economy": {
+      "description": "Numbers related to civilian counts",
+      "type": "object",
+      "properties": {
+        "villager": {
+          "description": "Total number of villages",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "tradeCart": {
+          "description": "Total number of trade carts",
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0
+        },
+        "tradeCog": {
+          "description": "Total number of trade cogs",
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0
+        },
+        "fishingShips": {
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Total number of fishing ships",
+          "type": "integer"
+        }
+      }
+    },
+    "military": {
+      "type": "object",
+      "description": "Unit counts grouped by unit(military units only).",
+      "properties": {
+        "mainUnits": {
+          "type": "array",
+          "description": "An array containing information on 7 unit groups (land only).",
+          "maxItems": 7,
+          "items": {
+            "properties": {
+              "unit": {
+                "type": "string",
+                "description": "The unit type to be used in the group.",
+                "enum": [
+                  "Swordsmen",
+                  "Spearmen",
+                  "Scout Cavalry",
+                  "Knights",
+                  "Camels",
+                  "Archers",
+                  "Skirmishers",
+                  "Cavalry Archers",
+                  "Hand Cannoneers",
+                  "Unique Units",
+                  "Monks"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The number of units in this group."
+              }
+            }
+          }
+        },
+        "siegeUnits": {
+          "type": "array",
+          "description": "An array containing information on 3 unit groups (siege only).",
+          "maxItems": 3,
+          "items": {
+            "properties": {
+              "unit": {
+                "type": "string",
+                "description": "The unit type to be used in the group.",
+                "enum": [
+                  "Onagers",
+                  "Rams",
+                  "Scorpions",
+                  "Trebuchet",
+                  "Cannons"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The number of units in this group."
+              }
+            }
+          }
+        },
+        "navalUnits": {
+          "type": "array",
+          "description": "An array containing information on 7 unit groups (naval only).",
+          "maxItems": 7,
+          "items": {
+            "properties": {
+              "unit": {
+                "type": "string",
+                "description": "The unit type to be used in the group.",
+                "enum": [
+                  "Galleys",
+                  "Fire Ships",
+                  "Cannon Galleons",
+                  "Demolition Ships",
+                  "Transport Ships"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "The number of units in this group."
+              }
+            }
+          }
+        }
+      }
+    },
+    "buildings": {
+      "type": "object",
+      "description": "Building-related stats.",
+      "properties": {
+        "buildsHouses": {
+          "type": "boolean",
+          "description": "AI Builds Houses?"
+        },
+        "buildingAmounts": {
+          "type": "object",
+          "description": "Amounts of each building to build up to/maintain",
+          "properties": {
+            "townCenter": {
+              "type": "integer",
+              "description": "Town Center count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "lumberCamp": {
+              "type": "integer",
+              "description": "Lumber Camp count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "farm": {
+              "type": "integer",
+              "description": "Farm count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "mill": {
+              "type": "integer",
+              "description": "Mill count",
+              "maximum": 1,
+              "minimum": 0
+            },
+            "miningCampStone": {
+              "type": "integer",
+              "description": "Mining Camp (for stone only) count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "miningCampGold": {
+              "type": "integer",
+              "description": "Mining Camp (for gold only) count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "barracks": {
+              "type": "integer",
+              "description": "Barracks count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "archeryRange": {
+              "type": "integer",
+              "description": "Archery Range count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "stablesCount": {
+              "type": "integer",
+              "description": "Stable count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "siegeWorkshop": {
+              "type": "integer",
+              "description": "Siege Workshop count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "blacksmith": {
+              "type": "integer",
+              "description": "Blacksmith count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "market": {
+              "type": "integer",
+              "description": "Market count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "universities": {
+              "type": "integer",
+              "description": "University count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "monastery": {
+              "type": "integer",
+              "description": "Monastery count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "dock": {
+              "type": "integer",
+              "description": "Dock count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "castle": {
+              "type": "integer",
+              "description": "Castle count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "tower": {
+              "type": "integer",
+              "description": "Watch Tower count",
+              "maximum": 100,
+              "minimum": 0
+            },
+            "bombardTower": {
+              "type": "integer",
+              "description": "Bombard Tower count",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "attacks": {
+      "type": "object",
+      "description": "Attack-related stats",
+      "properties": {
+        "targetWalls": {
+          "type": "boolean",
+          "description": "Will the AI target walls?"
+        },
+        "attackTimers": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "number",
+              "description": "Seconds from becoming active before attacking",
+              "minimum": 0,
+              "maximum": 7200
+            },
+            "waves": {
+              "type": "number",
+              "description": "Seconds between attack waves",
+              "maximum": 7200,
+              "minimum": 0
+            }
+          }
+        },
+        "attackUnits": {
+          "type": "object",
+          "description": "Amounts of attack groups",
+          "properties": {
+            "landGroups": {
+              "type": "integer",
+              "description": "Amount of land-based attack groups",
+              "maximum": 200,
+              "minimum": 0
+            },
+            "navalGroups": {
+              "type": "integer",
+              "description": "Amount of water-based attack groups",
+              "maximum": 200,
+              "minimum": 0
+            },
+            "landUnits": {
+              "type": "integer",
+              "description": "Amount of units in land-based attack groups",
+              "maximum": 200,
+              "minimum": 0
+            },
+            "navalUnits": {
+              "type": "integer",
+              "description": "Amount of units in water-based attack groups",
+              "maximum": 200,
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "upgrades": {
+      "type": "object",
+      "description": "Upgrade-related stats",
+      "properties": {
+        "escrowPercentages": {
+          "type": "object",
+          "description": "Escrow Percentages",
+          "properties": {
+            "food": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "wood": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "gold": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "stone": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "upgradeFilter": {
+          "type": "array",
+          "description": "Types of Upgrades to Research",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Military",
+              "Economic",
+              "Defense",
+              "Academic",
+              "Religious",
+              "Naval",
+              "Blacksmith"
+            ]
+          }
+        }
+      }
+    },
+    "miscellaneous": {
+      "type": "object",
+      "description": "Other properties",
+      "properties": {
+        "useMarket": {
+          "type": "boolean",
+          "description": "Does the AI manage its resources using the Market?"
+        },
+        "defaultResign": {
+          "type": "boolean",
+          "description": "Does the AI resign using the default behavior?"
+        },
+        "advanceAges": {
+          "type": "boolean",
+          "description": "Does the AI advance through the Ages?"
+        },
+        "finalAge": {
+          "type": "string",
+          "enum": [
+            "Dark",
+            "Feudal",
+            "Castle",
+            "Imperial"
+          ]
+        }
+      }
+    }
+  },
+  "required":["strategicNumbers","name","behaviorType","military","buildings","upgrades","economy"]
+}

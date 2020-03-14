@@ -60,7 +60,7 @@ const Signatures: SignatureMap  = {
     ],
     "building-type-count-total": [
         {
-            label: "(building-type-count-total  <building> <rel-op> <value>)",
+            label: "(building-type-count-total <building> <rel-op> <value>)",
             documentation: "This fact checks the computer player's total building count. The total includes existing and \nqueued buildings of the given type.\n The fact allows the use of building line wildcard parameters for the <building>.",
             parameters: [ 
                 AoE2AIParameterTypes.BUILDING,
@@ -71,7 +71,7 @@ const Signatures: SignatureMap  = {
     ],
     "current-age":[
         {
-            label:"(current-age  <rel-op> <age>)",
+            label:"(current-age <rel-op> <age>)",
             documentation: "This fact checks computer player’s current age.",
             parameters: [
                 AoE2AIParameterTypes.RELATIONAL_OPERATOR,
@@ -81,7 +81,7 @@ const Signatures: SignatureMap  = {
     ],
     "housing-headroom": [
         {
-            label: "(housing-headroom  <rel-op>  <value>)",
+            label: "(housing-headroom  <rel-op> <value>)",
             documentation: "This fact checks computer player’s housing headroom. Housing headroom is the difference between current housing capacity and trained unit capacity. For example, a computer player has a Town Center (capacity 5), a House (capacity 5) and 6 villagers. In this case, housing headroom is 4.",
             parameters: [
                 AoE2AIParameterTypes.RELATIONAL_OPERATOR,
@@ -264,6 +264,28 @@ const Signatures: SignatureMap  = {
                 AoE2AIParameterTypes.VALUE_TIMER
             ]
 
+        }
+    ],
+    // Chat signatures
+    "chat-local":[
+        {
+            label: "(chat-local <string>)",
+            documentation: "This action displays the given string as a local chat message.",
+            parameters: [
+                AoE2AIParameterTypes.VALUE_STRING
+            ]
+        }
+    ],
+    // UserPatch signatures ahead.
+    "up-train":[
+        {
+            label: "(up-train <goal-id> <type-op> <unit>)",
+            documentation: "Add a unit to the training queue with dynamic values.",
+            parameters: [
+                AoE2AIParameterTypes.VALUE_GOAL,
+                AoE2AIParameterTypes.TYPE_OPERATOR,
+                AoE2AIParameterTypes.UNIT
+            ]
         }
     ]
    

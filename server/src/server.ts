@@ -1,4 +1,4 @@
-import { DocumentSymbolParams, Position, Range, CancellationToken, WorkspaceSymbolParams, ReferenceParams, Location, CodeLensParams, CodeLens, Command,  ExecuteCommandRequest, TextDocumentSyncKind, CompletionItem, CompletionItemKind, createConnection, Diagnostic, FoldingRangeParams, FoldingRange, Hover, DiagnosticSeverity, DidChangeConfigurationNotification, InitializeParams, ParameterInformation, ProposedFeatures, SignatureHelp, SignatureInformation, FoldingRangeKind,  TextDocuments, TextDocumentPositionParams, DocumentSymbol, SymbolInformation } from 'vscode-languageserver';
+import { DocumentSymbolParams, Position, Range, CancellationToken, WorkspaceSymbolParams, ReferenceParams, Location, CodeLensParams, CodeLens, Command,  ExecuteCommandRequest, TextDocumentSyncKind, CompletionItem, CompletionItemKind, createConnection, Diagnostic, FoldingRangeParams, FoldingRange, Hover, DiagnosticSeverity, DidChangeConfigurationNotification, InitializeParams, ParameterInformation, ProposedFeatures, SignatureHelp, SignatureInformation, FoldingRangeKind,  TextDocuments, TextDocumentPositionParams, DocumentSymbol, SymbolInformation, HoverParams } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { SymbolKind, SignatureMap, AoE2AIParameterTypes, ConstantMap, ConstantDocMap } from './lib';
 import Signatures from './signatures';
@@ -965,6 +965,7 @@ connection.onSignatureHelp((_textDocParams: TextDocumentPositionParams): Signatu
     return sigHelp;
 })
 
+
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
     (_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
@@ -1185,6 +1186,12 @@ connection.onCompletion(
                      data: "forging"
                  },
                  {
+                    label: "ri-iron-casting",
+                    kind: CompletionItemKind.Field,
+                    documentation: "Infantry and cavalry have +1 attack",
+                    data: "iron-casting"
+                },                 
+                 {
                      label: "ri-bodkin-arrow",
                      kind: CompletionItemKind.Field,
                      documentation: "Archers, cavalry archers, galleys, Viking Longboats, Town Centers, Castles, and towers have +1 attack and +1 range.",
@@ -1325,9 +1332,48 @@ connection.onCompletion(
                         documentation: "Sets the maximum distance that lumber camp and mining camp may be placed from a Town Center. Must be >= 0. ",
                         data: "camp-max-distance",
                         detail: "(SN) camp-max-distance  \n Category: TOWN BUILDING NUMBERS"
-                    }
+                    },
+                    {
+                        label: "sn-enable-boar-hunting",
+                        kind: CompletionItemKind.Field,
+                        documentation: "Set to 1 to target deer and boar; if it's set to 2, deer will be ignored.",
+                        data: "enable-boar-hunting",
+                        detail: "UserPatch only - (SN) enable-boar-hunting  \n BOAR NUMBERS"
+                    },
+                    {
+                        label: "sn-lumber-camp-max-distance",
+                        kind: CompletionItemKind.Field,
+                        documentation: "Sets the maximum-town-size for lumber-camp placement, when non-zero. If set to 0, sn-camp-max-distance will be used instead.",
+                        data: "lumber-camp-max-distance",
+                        detail: "UserPatch only - (SN) lumber-camp-max-distance  \n Category: TOWN BUILDING NUMBERS"
+                    },
                 ];
              break;
+             case "<type-op>":
+                 result = [
+                    {
+                        label: "Constant",
+                        insertText: "c:",
+                        kind: CompletionItemKind.TypeParameter,
+                        documentation: "Either a constant defined using defconst (without being used in a goal or timer) or an integer. ",
+                        detail: "UserPatch only - Type Operator"
+                    },
+                    {
+                        label: "Strategic Number",
+                        insertText: "s:",
+                        kind: CompletionItemKind.TypeParameter,
+                        documentation: "A strategic number that is indicated by the prefix sn-",
+                        detail: "UserPatch only - Type Operator"
+                    },
+                    {
+                        label: "Goal",
+                        insertText: "g:",
+                        kind: CompletionItemKind.TypeParameter,
+                        documentation: "A constant (defined by defconst) that is also used in goals (either set-goal or ANY up- based actions)",
+                        detail: "UserPatch only - Type Operator"
+                    }
+                 ];
+                 break;
             case "<perimeter>":
                 result = [
                     {
@@ -1492,6 +1538,18 @@ connection.onCompletion(
                         insertText: "siege-workshop",
                         data: "siege-workshop",
                         documentation: "Used to build and upgrade siege weapons."
+                    },
+                    {
+                        label: "Archery Range",
+                        insertText: "archery-range",
+                        data: "archery-range",
+                        documentation: "Used to train and upgrade archer units."
+                    },                    
+                    {
+                        label: "University",
+                        insertText: "university",
+                        data: "university",
+                        documentation: "Used to research technologies to improve units and buildings.",
                     }                          
                 ];
                 break;
@@ -1762,16 +1820,16 @@ connection.onDidCloseTextDocument((params) => {
 });
 
 
-connection.onHover((params: TextDocumentPositionParams,token: CancellationToken): Hover => {
+connection.onHover((params: HoverParams,token: CancellationToken): Hover | null => {
     let hov: Hover;
 
     let resultStr: string = "";
-    let sigExp = new RegExp("(\()([\-A-Za-z0-9]+)\s*(([\-A-Za-z0-9]+)\s)*(\)*)","g");
-    let paramSpaceExp = new RegExp("(([\-A-Za-z0-9><(>=)(<=)(!=)(==)]+)(\s*))","g");
-    let doc = documents.get(params.textDocument.uri);
-    let docContents = doc.getText();
-    let docContentsArray = docContents.split(new RegExp("\n"));
-    let docLine = docContentsArray[params.position.line];
+    let sigExp = new RegExp("(\t*)(\()([\-A-Za-z0-9]+)\s*(([\-A-Za-z0-9]+)\s)*(\)*)","g");
+    let paramSpaceExp = new RegExp("(([\-\"\_A-Za-z0-9><(>=)(<=)(!=)(==)]+)(\s*)(\)*)","g");
+    var doc = documents.get(params.textDocument.uri);
+    var docContents = doc.getText();
+    var docContentsArray = docContents.split(new RegExp("\n"));
+    var docLine = docContentsArray[params.position.line];
     let paramData = [];
     let matches = docLine.match(sigExp);
     if (matches){
@@ -1800,20 +1858,39 @@ connection.onHover((params: TextDocumentPositionParams,token: CancellationToken)
                 paramData = aPResult;
             }
             if(sigs){
-                sigs.forEach((sig: SignatureInformation) => {
-                    if(paramData.length == sig.parameters.length) {
-                        resultStr = resultStr + ( "### " + sig.label + "\n");
-                        resultStr += sig.documentation + "\n\n";
-                    }
-                })
+                var character_value = params.position.character;
+                connection.console.log(character_value + " -> " + docLine.indexOf(func));
+                connection.console.log(character_value + " <- " + (docLine.indexOf(func) + func.length));
+                connection.console.log("Length: " + paramData.length);
+                if((character_value >= docLine.indexOf(func)) && (character_value <= (docLine.indexOf(func) + func.length))){
+                    sigs.forEach((sig: SignatureInformation) => {
+                        if(paramData.length == sig.parameters.length) {
+                            resultStr = resultStr + ( "### " + sig.label + "\n");
+                            resultStr += sig.documentation + "\n\n";
+                        }
+                    })
+                } else {
+                    paramData.forEach((value:string, index: number) => {
+                        if((character_value >= docLine.indexOf(value)) && (character_value <= (docLine.indexOf(value) + value.length))){
+                            resultStr = resultStr + (`\`\`\`\n(parameter) ${value}: ${sigs[0].parameters[index].label} \n\`\`\`\n`);
+                            resultStr += "---------\n";
+                            resultStr +=  sigs[0].parameters[index].documentation + "\n";
+                        }
+                    });
+
+                }
+                
             }
         }
     }
-    hov = {
-        contents: resultStr
-    };
+    if(resultStr.length > 0 ){
+        return {
+            contents: resultStr
+        };
+    } else {
+        return null;
+    }
 
-    return hov
 })
 
 // Make the text document manager listen on the connection

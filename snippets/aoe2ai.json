@@ -1,13 +1,11 @@
 {
     "Add constant": {
-        "prefix": "addconst",
         "body": [
           "(defconst ${1:const-name} ${2:value})"
         ],
         "description": "Boilerplate for a new constant"
       },
       "Add new rule": {
-        "prefix": "addrule",
         "body": [
           "(defrule",
           "\t($0)",
@@ -18,7 +16,6 @@
         "description":"Boilerplate for a new rule"
       },
       "Add new rule (with gameplay actions)": {
-        "prefix": "actrule-gameplay",
         "body": [
           "(defrule",
           "\t(can-${1|build,research,train,build-gate,build-wall,buy-commodity,sell-commodity|} ${2:object})",
@@ -29,7 +26,6 @@
         "description": "Adds a basic rule that uses a gameplay action (e.g. build, train, research, etc.) of your choice"
       },
       "Add new rule (with escrowed gameplay actions)": {
-        "prefix": "actrule-gameplay-escrow",
         "body": [
           "(defrule",
           "\t(can-${1|build,research,train,build-gate,build-wall|}-with-escrow ${2:object})",
@@ -40,6 +36,19 @@
           ")"
         ],
         "description": "Adds a basic rule that uses a gameplay action (e.g. build, train, research, etc.) of your choice, \n but with escrows this time. \n NOTE \n  This rule only releases one resource from escrow, so extras will need to be added manually."
+      },
+      "Add new rule (research)": {
+          "prefix": "addrule-research",
+          "body": [
+            "(defrule",
+            "\t(can-research ${1:ri-loom})",
+            "\t=>",
+            "\t(research $1)",
+            "\t(disable-self)",
+            ")"
+          ],
+          "description": "Adds a basic rule that does research."
       }
+      
 
 }

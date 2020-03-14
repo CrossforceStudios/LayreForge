@@ -36,6 +36,16 @@
 				"match":"(\\=\\>)"
 			},
 			{
+				"name": "keyword.operator.type.aoe2ai",
+				"match":"\\b(c|g|s)\\b\\:",
+				"captures": {
+					"1":{
+						"name":"storage.type.aoe2ai"
+					}
+				} 
+			
+			},
+			{
 				"name":"keyword.control.import.aoe2ai",
 				"match": "(load|load-random)"
 			}]
